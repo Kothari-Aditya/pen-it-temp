@@ -45,4 +45,10 @@ class CategoriesController extends Controller
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category Updated Successfully!');
     }
+
+    public function destroy(Request $request, Category $category) {
+        $category->delete();
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Category Deleted Successfully!');
+    }
 }
