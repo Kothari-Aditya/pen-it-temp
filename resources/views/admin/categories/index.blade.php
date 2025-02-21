@@ -9,6 +9,9 @@
         <a href="/admin/categories/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-cog fa-sm text-white-50"></i> Create Category</a>
     </div>
+
+    @include('admin.layouts._alerts')
+
     <div class="card">
         <div class="card-body">
             <div class="row">
