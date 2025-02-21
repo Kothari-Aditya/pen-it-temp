@@ -6,6 +6,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('tags', \App\Http\Controllers\admin\TagsController::class)->except(['show']);
+});
+
+
+
 Route::get('admin/categories', [\App\Http\Controllers\admin\CategoriesController::class, 'index'])->name('admin.categories.index');
 Route::get('admin/categories/create', [\App\Http\Controllers\admin\CategoriesController::class, 'create'])->name('admin.categories.create');
 Route::get('admin/categories/{category}/edit', [\App\Http\Controllers\admin\CategoriesController::class, 'edit'])->name('admin.categories.edit');
