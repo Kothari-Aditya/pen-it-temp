@@ -14,7 +14,7 @@ class BlogsController extends Controller
         ]));
     }
 
-    public function singleBlog(Request $request, string $slug) {
+    public function show(Request $request, string $slug) {
         $post = Post::where('slug', $slug)->first();
         return view('frontend.blog', compact([
             'post'
