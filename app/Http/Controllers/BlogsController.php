@@ -13,4 +13,10 @@ class BlogsController extends Controller
             'posts'
         ]));
     }
+
+    public function singleBlog(Request $request, Post $post) {
+        return view('frontend.blog', compact([
+            'post'
+        ]));
+    }
 }
