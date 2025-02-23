@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.home');
-});
+Route::get('/', [\App\Http\Controllers\BlogsController::class, 'blogs']);
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('tags', \App\Http\Controllers\admin\TagsController::class)->except(['show']);

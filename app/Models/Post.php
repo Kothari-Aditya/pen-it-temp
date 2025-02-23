@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['title', 'excerpt', 'body', 'thumbnail', 'category_id'];
+
+    // Accessors
+    public function getThumbnailPathAttribute() {
+        return 'storage/'.$this->thumbnail;
+    }
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
