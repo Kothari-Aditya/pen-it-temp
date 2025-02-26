@@ -17,9 +17,18 @@
                 <li>
                     <a href="index.html" data-toggle="dropdown" class="dropdown-toggle color-light">Home </a>
                 </li>
-                <li>
-                    <a href="{{ route('login') }}">Login </a>
-                </li>
+                @auth
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="btn btn-outline-secondary">Logout</button>
+                        </form>
+                    </li>
+                @else
+                    <li>
+                        <a href="{{ route('login') }}">Login </a>
+                    </li>
+                @endauth
             </ul>
 
         </div>
