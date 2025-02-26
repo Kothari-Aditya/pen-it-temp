@@ -11,11 +11,20 @@ use Illuminate\Support\Facades\Cookie;
 class BlogsController extends Controller
 {
     public function blogs() {
+        $search = request()->query('search');
         $categories = Category::all();
         $tags = Tag::all();
-        $posts = Post::with('author')
-            ->latest()
-            ->simplePaginate(9);
+        if($search) {
+            $posts = Post::with('author')
+                ->where('title', 'like', "%{$search}%")
+                ->latest()
+                ->simplePaginate(9);
+        } else {
+            $posts = Post::with('author')
+                ->latest()
+                ->simplePaginate(9);
+        }
+
 
         return view('frontend.home', compact([
             'posts',
