@@ -18,8 +18,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::delete('categories/{category}', [\App\Http\Controllers\admin\CategoriesController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('dashboard', function () {
-        return view('dashboard');
-    });
+        return view('admin.dashboard');
+    })->name('dashboard');
 });
 
 
