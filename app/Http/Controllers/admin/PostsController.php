@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
@@ -18,7 +19,12 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('category')->with('tags')->latest()->paginate(20);
+        $posts = Post::with('category')
+            ->with('tags')
+            ->where('author_id', auth()->id())
+            ->latest()
+            ->paginate(20);
+
         return view('admin.posts.index', compact([
             'posts'
         ]));
@@ -50,6 +56,9 @@ class PostsController extends Controller
                 $filePath = $request->file('thumbnail')->store('thumbnails', 'public');
                 $data['thumbnail'] = $filePath;
             }
+
+            $data['author_id'] = auth()->id();
+
             $post = Post::create($data);
             $post->tags()->attach($request->tags);
 
@@ -58,6 +67,7 @@ class PostsController extends Controller
                 ->with('success', 'Post created successfully!');
         } catch(\Exception $e) {
             DB::rollBack();
+            Log::error($e);
             return redirect()->route('admin.posts.index')
                 ->with('error', 'Some internal server issue!');
         }
@@ -76,6 +86,9 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
+        if($post->author_id !== auth()->id()) {
+            abort(403);
+        }
         $categories = Category::all();
         $tags = Tag::all();
         return view('admin.posts.edit', compact([
