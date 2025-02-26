@@ -1,6 +1,13 @@
 @extends('frontend.layouts.app')
 
 @section('main-content')
+    @if(request()->query('search'))
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Result For: <strong>{{ request()->query('search') }}</strong></h3>
+            </div>
+        </div>
+    @endif
     <div class="row">
         @foreach($posts as $post)
             <div class="col-md-4 col-sm-6 col-xs-12 mb50">
@@ -21,6 +28,6 @@
         @endforeach
     </div>
 
-    {{ $posts->links('frontend.partials._pagination') }}
+    {{ $posts->appends(request()->query())->links('frontend.partials._pagination') }}
 
 @endsection
