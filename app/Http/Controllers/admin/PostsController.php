@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
@@ -50,6 +51,9 @@ class PostsController extends Controller
                 $filePath = $request->file('thumbnail')->store('thumbnails', 'public');
                 $data['thumbnail'] = $filePath;
             }
+
+            $data['author_id'] = auth()->id();
+
             $post = Post::create($data);
             $post->tags()->attach($request->tags);
 
@@ -58,6 +62,7 @@ class PostsController extends Controller
                 ->with('success', 'Post created successfully!');
         } catch(\Exception $e) {
             DB::rollBack();
+            Log::error($e);
             return redirect()->route('admin.posts.index')
                 ->with('error', 'Some internal server issue!');
         }

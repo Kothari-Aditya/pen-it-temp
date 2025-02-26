@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'excerpt', 'body', 'thumbnail', 'category_id'];
+    protected $fillable = ['title', 'slug', 'excerpt', 'author_id', 'body', 'thumbnail', 'category_id'];
 
     // Accessors
     public function getThumbnailPathAttribute() {
@@ -29,5 +29,9 @@ class Post extends Model
 
     public function category() {
         return $this->belongsTo(Category::class);
+    }
+
+    public function author() {
+        return $this->belongsTo(User::class);
     }
 }
