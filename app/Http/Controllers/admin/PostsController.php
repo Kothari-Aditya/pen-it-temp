@@ -22,9 +22,10 @@ class PostsController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Post::class);
         $posts = Post::with('category')
             ->with('tags')
-            ->where('author_id', auth()->id())
+//            ->where('author_id', auth()->id())
             ->latest()
             ->paginate(20);
 

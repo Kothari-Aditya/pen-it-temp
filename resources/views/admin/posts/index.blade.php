@@ -35,9 +35,11 @@
                                     <td>{{ $post->category->name }}</td>
                                     <td>{{ implode(', ', $post->tags->pluck('name')->toArray()) }}</td>
                                     <td>
-                                        <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-outline-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                        @can('update', $post)
+                                            <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-outline-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
